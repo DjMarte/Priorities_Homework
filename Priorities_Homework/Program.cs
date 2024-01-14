@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Priorities_Homework.BLL;
 using Priorities_Homework.Components;
 using Priorities_Homework.DAL;
 
@@ -10,6 +11,8 @@ builder.Services.AddRazorComponents()
 
 var ConStr = builder.Configuration.GetConnectionString("ConStr");
 builder.Services.AddDbContext<Contexto>(options => options.UseSqlite(ConStr));
+
+builder.Services.AddScoped<PrioridadesBLL>();
 
 
 var app = builder.Build();
