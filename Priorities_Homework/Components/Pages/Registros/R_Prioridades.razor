@@ -78,13 +78,15 @@
 		}
 		var guardado = prioridadesBLL.Guardar(this.prioridades);
 		if(guardado) {
-
-			Mensaje = "Se ha guardado Correctamente";
 			Nuevo();
+			Mensaje = "Se ha guardado Correctamente";
+
 		}
+
 		else {
 			Mensaje = "No se guardó correctamente";
 		}
+		
 	}
 
 	public bool Validar() {
