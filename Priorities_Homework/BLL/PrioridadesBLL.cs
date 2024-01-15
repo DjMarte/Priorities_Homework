@@ -30,13 +30,12 @@ namespace Priorities_Homework.BLL
         }
 
         public bool Guardar(Prioridades prioridades) {
-            if (prioridades.PrioridadId == 0)
-                _contexto.Prioridades.Add(prioridades);
-            else
-                _contexto.Entry(prioridades).State = EntityState.Modified;
+			if(!Existe(prioridades.PrioridadId))
 
-            return _contexto.SaveChanges() > 0;
-        }
+	            return this.Insertar(prioridades);
+            else
+				return this.Modificar(prioridades);
+		}
         public Prioridades? Buscar(int prioridadId) {
             return _contexto.Prioridades.Where(o => o.PrioridadId == prioridadId).
                 AsNoTracking().SingleOrDefault();

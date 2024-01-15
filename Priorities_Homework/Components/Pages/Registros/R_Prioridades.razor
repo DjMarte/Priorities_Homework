@@ -1,0 +1,107 @@
+﻿@page "/prioridades"
+@page "/prioridades/{PrioridadId:int}"
+@rendermode InteractiveServer
+
+@inject PrioridadesBLL prioridadesBLL;
+
+<h3>R_Prioridades</h3>
+<EditForm Model="prioridades" OnValidSubmit="Guardar"> 
+	<DataAnnotationsValidator />
+	<div class="card">
+		<div class="card-header">
+			<h1>Registro Prioridad</h1>
+		</div>
+		<div class="card-body">
+			<label>ID:</label>
+			<div class="input-group">
+				<InputNumber @bind-Value="prioridades.PrioridadId" class="id-input"></InputNumber>
+				<button type="button" class="btn btn-primary bi bi-search" @onclick="Buscar"></button>
+			</div>
+			<div>
+				<label>Descripci&oacute;n:</label>
+				<InputText @bind-Value="prioridades.Descripción" class="form-control"></InputText>
+				<ValidationMessage For="@(() => prioridades.Descripción)" />
+				@if (descripciónExistente) {
+					<p class="text-danger">Ya existe una Prioridad con esta descripción.</p>
+				}
+			</div>
+			<div>
+				<label>Dias compromiso:</label>
+				<InputNumber @bind-Value="prioridades.DiasCompromiso" class="form-control"></InputNumber>
+				<ValidationMessage For="@(() => prioridades.DiasCompromiso)" />
+			</div>
+		</div>
+		<div class="card-footer">
+			<button type="button" class="btn btn-primary" @onclick="Nuevo">Nuevo <i class="bi bi-file-earmark-diff-fill" /></button>
+			<button type="submit" class="btn btn-success">Guardar <i class="bi bi-floppy-fill" /></button>
+			<button type="button" class="btn btn-danger" @onclick="Eliminar">Eliminar <i class="bi bi-trash-fill" /></button>
+		</div>
+	</div>
+	@Mensaje
+</EditForm>
+@code {
+	[Parameter]
+	public int PrioridadId { get; set; }
+	public Prioridades prioridades { get; set; } = new Prioridades();
+	public string Mensaje { get; set; } = string.Empty;
+	public bool descripciónExistente = false;
+	public Prioridades? PrioridadGuardada { get; set; }
+
+	protected override void OnInitialized() {
+		if(PrioridadId > 0) {
+			this.prioridades.PrioridadId = PrioridadId;
+			this.Buscar();
+		}
+	}
+
+	public void Buscar() {
+		var prioridadEncontrada = prioridadesBLL.Buscar(prioridades.PrioridadId); // buscamos el ID que esta en nuestra base de datos y lo
+		if (prioridadEncontrada != null) {                                       // guardamos en una variable global
+			this.prioridades = prioridadEncontrada;
+			Mensaje = "Id encontrado";
+		}
+		else {
+			Mensaje = "ID No he encontrado";
+		}
+	}
+
+	public void Nuevo() {
+		prioridades = new Prioridades(); // Creamos un nuevo dato... con el html se verá dicho cambio
+	}
+
+	public void Guardar() {
+		if(Validar()) {
+			Mensaje = "Descripción Existente";
+			return;
+		}
+		var guardado = prioridadesBLL.Guardar(this.prioridades);
+		if(guardado) {
+
+			Mensaje = "Se ha guardado Correctamente";
+			Nuevo();
+		}
+		else {
+			Mensaje = "No se guardó correctamente";
+		}
+	}
+
+	public bool Validar() {
+		descripciónExistente = (prioridadesBLL.ObtenerLista(p =>
+			p.Descripción!.ToLower() == prioridades.Descripción!.ToLower()
+			&& p.PrioridadId != prioridades.PrioridadId).Any());
+
+		return descripciónExistente;
+	}
+
+
+	public void Eliminar() {
+		if (prioridadesBLL.Eliminar(prioridades.PrioridadId)) {
+			Mensaje = "Se Eliminaron los datos correctamente";
+			Nuevo();
+		}
+		else {
+			Mensaje = "No se pudo eliminar correctamnte";
+		}
+	}
+
+}
