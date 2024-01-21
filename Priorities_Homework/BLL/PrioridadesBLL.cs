@@ -7,48 +7,49 @@ namespace Priorities_Homework.BLL
 {
     public class PrioridadesBLL
     {
-        private Contexto _contexto;
+        private readonly Contexto _contexto;
 
         public PrioridadesBLL(Contexto contexto)
         {
             _contexto = contexto;
         }
 
-        public bool Existe(int prioridadId) {
-            return _contexto.Prioridades.Any(o => o.PrioridadId == prioridadId);
-
+        public async Task <bool> Existe(int prioridadId) {
+            return await _contexto.Prioridades.AnyAsync(o => o.PrioridadId == prioridadId);
         }
 
-        private bool Insertar(Prioridades prioridad) {
+        private async Task<bool> Insertar(Prioridad prioridad) {
             _contexto.Prioridades.Add(prioridad);
-            return _contexto.SaveChanges() > 0;
+            return await _contexto.SaveChangesAsync() > 0;
         }
 
-        private bool Modificar(Prioridades prioridad) {
+        private async Task<bool> Modificar(Prioridad prioridad) {
             _contexto.Entry(prioridad).State = EntityState.Modified;
-            return _contexto.SaveChanges() > 0;
+            return await _contexto.SaveChangesAsync() > 0;
         }
 
-        public bool Guardar(Prioridades prioridades) {
-			if(!Existe(prioridades.PrioridadId))
+        public async Task<bool> Guardar(Prioridad prioridad) {
+			if(! await Existe(prioridad.PrioridadId))
 
-	            return this.Insertar(prioridades);
+	            return await Insertar(prioridad);
             else
-				return this.Modificar(prioridades);
+				return await Modificar(prioridad);
 		}
-        public Prioridades? Buscar(int prioridadId) {
-            return _contexto.Prioridades.Where(o => o.PrioridadId == prioridadId).
-                AsNoTracking().SingleOrDefault();
+        public async Task<Prioridad?> Buscar(int prioridadId) {
+            return await _contexto.Prioridades
+                .AsNoTracking()
+                .FirstOrDefaultAsync(p => p.PrioridadId == prioridadId);
         }
 
-        public bool Eliminar(int id) {
-            var prioridad = _contexto.Prioridades.Find(id);
-            _contexto.Prioridades.Remove(prioridad);
-            return _contexto.SaveChanges() > 0;
+        public async Task<bool> Eliminar(Prioridad prioridad) {
+            var cantidad = await _contexto.Prioridades
+                .Where(p => p.PrioridadId == prioridad.PrioridadId)
+                .ExecuteDeleteAsync();
 
+            return cantidad > 0;
         }
 
-        public List<Prioridades> ObtenerLista(Expression<Func<Prioridades, bool>> criterio) {
+        public List<Prioridad> ObtenerLista(Expression<Func<Prioridad, bool>> criterio) {
             return _contexto.Prioridades
                 .AsNoTracking()
                 .Where(criterio)

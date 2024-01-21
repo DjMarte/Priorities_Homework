@@ -42,51 +42,47 @@
 @code {
 	[Parameter]
 	public int PrioridadId { get; set; }
-	public Prioridades prioridades { get; set; } = new Prioridades();
+	public Prioridad prioridades { get; set; } = new Prioridad();
 	public string Mensaje { get; set; } = string.Empty;
 	public bool descripciónExistente = false;
-	public Prioridades? PrioridadGuardada { get; set; }
+	public Prioridad? PrioridadGuardada { get; set; }
 
 	protected override void OnInitialized() {
 		if(PrioridadId > 0) {
-			this.prioridades.PrioridadId = PrioridadId;
-			this.Buscar();
+			prioridades.PrioridadId = PrioridadId;
+			Buscar();
 		}
 	}
 
-	public void Buscar() {
-		var prioridadEncontrada = prioridadesBLL.Buscar(prioridades.PrioridadId); // buscamos el ID que esta en nuestra base de datos y lo
+	public async Task Buscar() {
+		var prioridadEncontrada = await prioridadesBLL.Buscar(prioridades.PrioridadId); // buscamos el ID que esta en nuestra base de datos y lo
 		if (prioridadEncontrada != null) {                                       // guardamos en una variable global
-			this.prioridades = prioridadEncontrada;
+			prioridades = prioridadEncontrada;
 			Mensaje = "Id encontrado";
 		}
 		else {
-			Mensaje = "ID No he encontrado";
+			Mensaje = "ID no encontrado";
 		}
 	}
 
-	public void Nuevo() {
-		prioridades = new Prioridades(); // Creamos un nuevo dato... con el html se verá dicho cambio
-		Mensaje = "";
-
+	public async Task Nuevo() {
+		prioridades = new Prioridad(); // Creamos un nuevo dato... con el html se verá dicho cambio
+		Mensaje = string.Empty;
 	}
 
-	public void Guardar() {
+	public async Task Guardar() {
 		if(Validar()) {
 			Mensaje = "Descripción Existente";
 			return;
 		}
-		var guardado = prioridadesBLL.Guardar(this.prioridades);
+		var guardado = await prioridadesBLL.Guardar(this.prioridades);
 		if(guardado) {
 			Nuevo();
 			Mensaje = "Se ha guardado Correctamente";
-
 		}
-
 		else {
 			Mensaje = "No se guardó correctamente";
 		}
-		
 	}
 
 	public bool Validar() {
@@ -97,15 +93,13 @@
 		return descripciónExistente;
 	}
 
-
-	public void Eliminar() {
-		if (prioridadesBLL.Eliminar(prioridades.PrioridadId)) {
-			Mensaje = "Se Eliminaron los datos correctamente";
+	public async Task Eliminar() {
+		if (await prioridadesBLL.Eliminar(prioridades)) {
 			Nuevo();
+			Mensaje = "Se Eliminaron los datos correctamente";
 		}
 		else {
 			Mensaje = "No se pudo eliminar correctamnte";
 		}
 	}
-
 }
