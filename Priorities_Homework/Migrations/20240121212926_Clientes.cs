@@ -17,11 +17,11 @@ namespace Priorities_Homework.Migrations
                     ClienteId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Nombre = table.Column<string>(type: "TEXT", nullable: false),
-                    teléfono = table.Column<int>(type: "INTEGER", maxLength: 12, nullable: false),
+                    Telefono = table.Column<int>(type: "INTEGER", maxLength: 12, nullable: false),
                     Celular = table.Column<int>(type: "INTEGER", maxLength: 12, nullable: false),
                     RNC = table.Column<int>(type: "INTEGER", nullable: false),
                     Email = table.Column<string>(type: "TEXT", nullable: false),
-                    Dirección = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false)
+                    Direccion = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {

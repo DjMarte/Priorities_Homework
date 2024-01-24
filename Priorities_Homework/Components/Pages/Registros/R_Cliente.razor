@@ -2,7 +2,7 @@
 @page "/RegistroClientes/{ClienteId:int}"
 
 @rendermode InteractiveServer
-@inject ClientesBLL clientesBll
+@inject ClienteService clientesBll
 
 @*<h3><strong>Resgistro de Clientes</strong></h3>*@
 
@@ -44,16 +44,16 @@
                 @*Dirección:*@
                 <div class="col-4">
                     <label>Direcci&oacute;n:</label>
-                    <InputText @bind-Value="clientes.Dirección" class="form-control input-group-sm" placeholder="Ejemplo: Calle Duarte #35, Tenares"></InputText>
-                    <ValidationMessage For="@(() => clientes.Dirección)" />
+                    <InputText @bind-Value="clientes.Direccion" class="form-control input-group-sm" placeholder="Ejemplo: Calle Duarte #35, Tenares"></InputText>
+                    <ValidationMessage For="@(() => clientes.Direccion)" />
                 </div>
             </div>
             <div class='row'>
                 @*Teléfono:*@
                 <div class='col-4'>
                     <label>Tel&eacute;fono:</label>
-                    <InputText @bind-Value="clientes.Teléfono" class="form-control input-group-sm" placeholder="Ejemplo: 8095775690"></InputText>
-                    <ValidationMessage For="@(() => clientes.Teléfono)" />
+                    <InputText @bind-Value="clientes.Telefono" class="form-control input-group-sm" placeholder="Ejemplo: 8095775690"></InputText>
+                    <ValidationMessage For="@(() => clientes.Telefono)" />
                 </div>
                 @*Celular:*@
                 <div class='col-4'>

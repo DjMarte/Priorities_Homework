@@ -5,11 +5,11 @@ using System.Linq.Expressions;
 
 namespace Priorities_Homework.BLL
 {
-    public class PrioridadesBLL
+    public class PrioridadService
     {
         private readonly Contexto _contexto;
 
-        public PrioridadesBLL(Contexto contexto)
+        public PrioridadService(Contexto contexto)
         {
             _contexto = contexto;
         }

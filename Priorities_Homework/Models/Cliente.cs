@@ -12,18 +12,18 @@ namespace Priorities_Homework.Models
         public string? Nombre { get; set; }
 
         [Required(ErrorMessage = "Teléfono obligatorio")]
-		[RegularExpression("^[0-9]*$", ErrorMessage = "Solo se permiten numeros")]
-        [StringLength(12, MinimumLength = 10, ErrorMessage = "El número de teléfono debe contener al menos {2} dígitos y maximo {1} dígitos.")]
+		[RegularExpression("^[0-9]*$", ErrorMessage = "Solo se permiten números")]
+        [StringLength(12, MinimumLength = 10, ErrorMessage = "El número de teléfono debe contener al menos {2} dígitos y máximo {1} dígitos.")]
 
-        public string? Teléfono { get; set; }
+        public string? Telefono { get; set; }
 
         [Required(ErrorMessage = "Celular obligatorio")]
-        [RegularExpression("^[0-9]*$", ErrorMessage = "Solo se permiten numeros")]
-        [StringLength(12,MinimumLength = 10, ErrorMessage = "El número de celular debe contener al menos {2} dígitos y maximo {1} dígitos.")]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "Solo se permiten números")]
+        [StringLength(12,MinimumLength = 10, ErrorMessage = "El número de celular debe contener al menos {2} dígitos y máximo {1} dígitos.")]
         public string? Celular { get; set; }
 
         [Required(ErrorMessage = "RNC obligatorio")]
-		[RegularExpression("^[0-9]*$", ErrorMessage = "El RNC debe contener solo numeros.")]
+		[RegularExpression("^[0-9]*$", ErrorMessage = "El RNC debe contener solo números.")]
 		public string? RNC { get; set; }
 
         [Required(ErrorMessage = "Correo obligatorio")]
@@ -31,8 +31,8 @@ namespace Priorities_Homework.Models
 		public string? Email { get; set; }
 
         [Required(ErrorMessage = "Dirección obligatoria")]
-        [StringLength(50, MinimumLength = 4, ErrorMessage = "Debe introducir una direccion real.")]
-        public string? Dirección { get; set; }
+        [StringLength(50, MinimumLength = 4, ErrorMessage = "Debe introducir una dirección real.")]
+        public string? Direccion { get; set; }
 
     }
 }

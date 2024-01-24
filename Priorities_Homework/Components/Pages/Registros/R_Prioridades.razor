@@ -2,7 +2,7 @@
 @page "/prioridades/{PrioridadId:int}"
 @rendermode InteractiveServer
 
-@inject PrioridadesBLL prioridadesBLL;
+@inject PrioridadService prioridadesBLL;
 <EditForm Model="prioridades" OnValidSubmit="Guardar"> 
 	<DataAnnotationsValidator />
 	<div class="card">
@@ -17,8 +17,8 @@
 			</div>
 			<div>
 				<label>Descripci&oacute;n:</label>
-				<InputText @bind-Value="prioridades.Descripción" class="form-control"></InputText>
-				<ValidationMessage For="@(() => prioridades.Descripción)" />
+				<InputText @bind-Value="prioridades.Descripcion" class="form-control"></InputText>
+				<ValidationMessage For="@(() => prioridades.Descripcion)" />
 				@if (descripciónExistente) {
 					<p class="text-danger">Ya existe una Prioridad con esta descripción.</p>
 				}
@@ -85,7 +85,7 @@
 
 	public bool Validar() {
 		descripciónExistente = (prioridadesBLL.ObtenerLista(p =>
-			p.Descripción!.ToLower() == prioridades.Descripción!.ToLower()
+			p.Descripcion!.ToLower() == prioridades.Descripcion!.ToLower()
 			&& p.PrioridadId != prioridades.PrioridadId).Any());
 
 		return descripciónExistente;

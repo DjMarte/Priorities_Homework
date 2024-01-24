@@ -3,7 +3,7 @@
 
 <h3><b>Consulta Clientes</b></h3>
 
-@inject ClientesBLL clientesBll
+@inject ClienteService clientesBll
 
 <PageTitle>Consulta Clientes</PageTitle>
 <h2><b>Lista de Clientes</b></h2>
@@ -26,10 +26,10 @@
                     <td>@item.ClienteId</td>
                     <td>@item.Nombre</td>
                     <td>@item.RNC</td>
-                    <td>@item.Teléfono</td>
+                    <td>@item.Telefono</td>
                     <td>@item.Celular</td>
                     <td>@item.Email</td>
-                    <td>@item.Dirección</td>
+                    <td>@item.Direccion</td>
                 </tr>
             }
         </tbody>

@@ -6,11 +6,11 @@ using System.Linq.Expressions;
 
 namespace Priorities_Homework.BLL
 {
-	public class ClientesBLL
+	public class ClienteService
 	{
 		private readonly Contexto _contexto;
 
-        public ClientesBLL(Contexto contexto)
+        public ClienteService(Contexto contexto)
         {
             _contexto = contexto;
         }
