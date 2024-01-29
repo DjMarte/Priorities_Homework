@@ -15,20 +15,20 @@ namespace Priorities_Homework.BLL
             _contexto = contexto;
         }
 
-        public async Task<bool> Guardar(Cliente cliente) {
+        public async Task<bool> Guardar(Clientes cliente) {
             if (!await Existe(cliente.ClienteId))
                 return await Insertar(cliente);
             else
                 return await Modificar(cliente);
         }
 
-        private async Task<bool> Insertar(Cliente cliente)
+        private async Task<bool> Insertar(Clientes cliente)
         {
             _contexto.Clientes.Add(cliente);
             return await _contexto.SaveChangesAsync() > 0;
         }
 
-        private async Task<bool> Modificar(Cliente cliente) {
+        private async Task<bool> Modificar(Clientes cliente) {
             _contexto.Entry(cliente).State = EntityState.Modified;
             return await _contexto.SaveChangesAsync() > 0;
         }
@@ -38,13 +38,13 @@ namespace Priorities_Homework.BLL
             return await _contexto.Clientes.AnyAsync(o => o.ClienteId == clienteId);
         }
 
-        public async Task<Cliente?> Buscar(int clienteId) {
+        public async Task<Clientes?> Buscar(int clienteId) {
             return await _contexto.Clientes
                 .AsNoTracking()
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<bool> Eliminar(Cliente cliente)
+        public async Task<bool> Eliminar(Clientes cliente)
         {
             var cantidad = await _contexto.Clientes
                 .Where(c => c.ClienteId == cliente.ClienteId)
@@ -52,7 +52,7 @@ namespace Priorities_Homework.BLL
             return cantidad > 0;
         }
 
-        public List<Cliente> ObtenerLista(Expression<Func<Cliente, bool>> criterio) {
+        public List<Clientes> ObtenerLista(Expression<Func<Clientes, bool>> criterio) {
             return _contexto.Clientes
                .AsNoTracking()
                .Where(criterio)

@@ -2,7 +2,7 @@
 @page "/RegistroClientes/{ClienteId:int}"
 
 @rendermode InteractiveServer
-@inject ClienteService clientesBll
+@inject ClienteService clientesServices
 
 @*<h3><strong>Resgistro de Clientes</strong></h3>*@
 
@@ -77,7 +77,7 @@
 @code {
     [Parameter]
     public int? ClienteId { get; set; }
-    public Cliente clientes { get; set; } = new Cliente();
+    public Clientes clientes { get; set; } = new Clientes();
     public string Mensaje { get; set; } = string.Empty;
     private bool clienteExistente = false;
 
@@ -89,13 +89,12 @@
     }
 
     public async Task Nuevo() {
-        clientes = new Cliente();
+        clientes = new Clientes();
         Mensaje = string.Empty;
     }
 
     public async Task Guardar() {
-        Console.WriteLine("Jose");
-        if (!Validar() && await clientesBll.Guardar(this.clientes)) {
+        if (!Validar() && await clientesServices.Guardar(this.clientes)) {
             Nuevo();
             Mensaje = "Se guardó correctamente el cliente.";
         }
@@ -106,7 +105,7 @@
     }
 
     public async Task Buscar() {
-        var clienteEncontrado = await clientesBll.Buscar(clientes.ClienteId);
+        var clienteEncontrado = await clientesServices.Buscar(clientes.ClienteId);
         if (clienteEncontrado != null)
         {
             clientes = clienteEncontrado;
@@ -117,15 +116,14 @@
     }
 
     public bool Validar() {
-        Console.WriteLine("Jose mmg");
-        clienteExistente = (clientesBll.ObtenerLista(c =>
+        clienteExistente = (clientesServices.ObtenerLista(c =>
             c.Nombre!.ToLower() == clientes.Nombre!.ToLower()
             || c.RNC == clientes.RNC).Any());
         return clienteExistente;
     }
 
     public async Task Eliminar() {
-        if (await clientesBll.Eliminar(this.clientes))
+        if (await clientesServices.Eliminar(this.clientes))
         {
             Nuevo();
             Mensaje = "Cliente eliminado Correctamente";

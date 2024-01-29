@@ -18,30 +18,30 @@ namespace Priorities_Homework.BLL
             return await _contexto.Prioridades.AnyAsync(o => o.PrioridadId == prioridadId);
         }
 
-        private async Task<bool> Insertar(Prioridad prioridad) {
+        private async Task<bool> Insertar(Prioridades prioridad) {
             _contexto.Prioridades.Add(prioridad);
             return await _contexto.SaveChangesAsync() > 0;
         }
 
-        private async Task<bool> Modificar(Prioridad prioridad) {
+        private async Task<bool> Modificar(Prioridades prioridad) {
             _contexto.Entry(prioridad).State = EntityState.Modified;
             return await _contexto.SaveChangesAsync() > 0;
         }
 
-        public async Task<bool> Guardar(Prioridad prioridad) {
+        public async Task<bool> Guardar(Prioridades prioridad) {
 			if(! await Existe(prioridad.PrioridadId))
 
 	            return await Insertar(prioridad);
             else
 				return await Modificar(prioridad);
 		}
-        public async Task<Prioridad?> Buscar(int prioridadId) {
+        public async Task<Prioridades?> Buscar(int prioridadId) {
             return await _contexto.Prioridades
                 .AsNoTracking()
                 .FirstOrDefaultAsync(p => p.PrioridadId == prioridadId);
         }
 
-        public async Task<bool> Eliminar(Prioridad prioridad) {
+        public async Task<bool> Eliminar(Prioridades prioridad) {
             var cantidad = await _contexto.Prioridades
                 .Where(p => p.PrioridadId == prioridad.PrioridadId)
                 .ExecuteDeleteAsync();
@@ -49,7 +49,7 @@ namespace Priorities_Homework.BLL
             return cantidad > 0;
         }
 
-        public List<Prioridad> ObtenerLista(Expression<Func<Prioridad, bool>> criterio) {
+        public List<Prioridades> ObtenerLista(Expression<Func<Prioridades, bool>> criterio) {
             return _contexto.Prioridades
                 .AsNoTracking()
                 .Where(criterio)

@@ -3,7 +3,7 @@
 
 <h3><b>Consulta Clientes</b></h3>
 
-@inject ClienteService clientesBll
+@inject ClienteService clientesServices
 
 <PageTitle>Consulta Clientes</PageTitle>
 <h2><b>Lista de Clientes</b></h2>
@@ -38,10 +38,10 @@
 
 @code {
     [Parameter]
-    public Cliente clientes { get; set; } = new Cliente();
-    public List<Cliente> ListaClientes { get; set; } = new List<Cliente>();
+    public Clientes clientes { get; set; } = new Clientes();
+    public List<Clientes> ListaClientes { get; set; } = new List<Clientes>();
 
     protected override void OnInitialized() {
-        ListaClientes = clientesBll.ObtenerLista(l => true);
+        ListaClientes = clientesServices.ObtenerLista(l => true);
     }
 }

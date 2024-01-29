@@ -2,7 +2,7 @@
 @page "/prioridades/{PrioridadId:int}"
 @rendermode InteractiveServer
 
-@inject PrioridadService prioridadesBLL;
+@inject PrioridadService prioridadesServices;
 <EditForm Model="prioridades" OnValidSubmit="Guardar"> 
 	<DataAnnotationsValidator />
 	<div class="card">
@@ -40,10 +40,10 @@
 @code {
 	[Parameter]
 	public int PrioridadId { get; set; }
-	public Prioridad prioridades { get; set; } = new Prioridad();
+	public Prioridades prioridades { get; set; } = new Prioridades();
 	public string Mensaje { get; set; } = string.Empty;
 	public bool descripciónExistente = false;
-	public Prioridad? PrioridadGuardada { get; set; }
+	public Prioridades? PrioridadGuardada { get; set; }
 
 	protected override void OnInitialized() {
 		if(PrioridadId > 0) {
@@ -53,7 +53,7 @@
 	}
 
 	public async Task Buscar() {
-		var prioridadEncontrada = await prioridadesBLL.Buscar(prioridades.PrioridadId); // buscamos el ID que esta en nuestra base de datos y lo
+		var prioridadEncontrada = await prioridadesServices.Buscar(prioridades.PrioridadId); // buscamos el ID que esta en nuestra base de datos y lo
 		if (prioridadEncontrada != null) {                                       // guardamos en una variable global
 			prioridades = prioridadEncontrada;
 			Mensaje = "Id encontrado";
@@ -64,7 +64,7 @@
 	}
 
 	public async Task Nuevo() {
-		prioridades = new Prioridad(); // Creamos un nuevo dato... con el html se verá dicho cambio
+		prioridades = new Prioridades(); // Creamos un nuevo dato... con el html se verá dicho cambio
 		Mensaje = string.Empty;
 	}
 
@@ -73,7 +73,7 @@
 			Mensaje = "Descripción Existente";
 			return;
 		}
-		var guardado = await prioridadesBLL.Guardar(this.prioridades);
+		var guardado = await prioridadesServices.Guardar(this.prioridades);
 		if(guardado) {
 			Nuevo();
 			Mensaje = "Se ha guardado Correctamente";
@@ -84,7 +84,7 @@
 	}
 
 	public bool Validar() {
-		descripciónExistente = (prioridadesBLL.ObtenerLista(p =>
+		descripciónExistente = (prioridadesServices.ObtenerLista(p =>
 			p.Descripcion!.ToLower() == prioridades.Descripcion!.ToLower()
 			&& p.PrioridadId != prioridades.PrioridadId).Any());
 
@@ -92,7 +92,7 @@
 	}
 
 	public async Task Eliminar() {
-		if (await prioridadesBLL.Eliminar(prioridades)) {
+		if (await prioridadesServices.Eliminar(prioridades)) {
 			Nuevo();
 			Mensaje = "Se Eliminaron los datos correctamente";
 		}
