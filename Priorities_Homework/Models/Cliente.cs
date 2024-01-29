@@ -2,7 +2,7 @@
 
 namespace Priorities_Homework.Models
 {
-	public class Cliente
+	public class Clientes
 	{
         [Key]
         public int ClienteId { get; set; }
