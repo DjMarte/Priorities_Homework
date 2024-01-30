@@ -14,7 +14,7 @@ namespace Priorities_Homework.Servicios
         }
 
         public async Task<bool> Existe(int ticketId) {
-            return await _contexto.Tickets.AnyAsync(o => o.TicketId == ticketId);
+            return await _contexto.Tickets.AnyAsync(t => t.TicketId == ticketId);
         }
 
         private async Task<bool> Insertar(Tickets ticket) {
@@ -37,12 +37,12 @@ namespace Priorities_Homework.Servicios
         public async Task<Tickets?> Buscar(int ticketId) {
             return await _contexto.Tickets
                 .AsNoTracking()
-                .FirstOrDefaultAsync(p => p.TicketId == ticketId);
+                .FirstOrDefaultAsync(t => t.TicketId == ticketId);
         }
 
         public async Task<bool> Eliminar(Tickets ticket) {
             var cantidad = await _contexto.Tickets
-                .Where(p => p.TicketId == ticket.TicketId)
+                .Where(t => t.TicketId == ticket.TicketId)
                 .ExecuteDeleteAsync();
 
             return cantidad > 0;
