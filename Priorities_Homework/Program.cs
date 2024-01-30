@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Priorities_Homework.BLL;
 using Priorities_Homework.Components;
 using Priorities_Homework.DAL;
+using Priorities_Homework.Servicios;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,7 @@ builder.Services.AddDbContext<Contexto>(options => options.UseSqlite(ConStr));
 
 builder.Services.AddScoped<PrioridadService>();
 builder.Services.AddScoped<ClienteService>();
+builder.Services.AddScoped<TicketService>();
 
 
 
