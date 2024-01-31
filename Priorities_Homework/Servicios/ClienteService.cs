@@ -38,13 +38,24 @@ namespace Priorities_Homework.BLL
             return await _contexto.Clientes.AnyAsync(o => o.ClienteId == clienteId);
         }
 
-        public async Task<Clientes?> Buscar(int clienteId) {
-            return await _contexto.Clientes
-                .AsNoTracking()
-                .FirstOrDefaultAsync();
-        }
+		public async Task<Clientes?> BuscarId(int clienteId) {
+			return await _contexto.Clientes
+				.AsNoTracking()
+				.FirstOrDefaultAsync(c => c.ClienteId == clienteId);
+		}
 
-        public async Task<bool> Eliminar(Clientes cliente)
+		public async Task<Clientes?> BuscarNombre(string nombre) {
+			return await _contexto.Clientes
+				.AsNoTracking()
+				.FirstOrDefaultAsync(c => c.Nombre.ToLower() == nombre.ToLower());
+		}
+
+		public async Task<Clientes?> BuscarRNC(string Rnc) {
+			return await _contexto.Clientes
+				.AsNoTracking()
+				.FirstOrDefaultAsync(c => c.RNC == Rnc);
+		}
+		public async Task<bool> Eliminar(Clientes cliente)
         {
             var cantidad = await _contexto.Clientes
                 .Where(c => c.ClienteId == cliente.ClienteId)
